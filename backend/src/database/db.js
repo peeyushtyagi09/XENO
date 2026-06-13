@@ -7,15 +7,12 @@ const connectDB = async () => {
         return;
     }
     try {
-        await mongoose.connect(mongoDB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect(mongoDB_URI);
         console.log("🙌 Database is successfully connected ....🙌");
     } catch (err) {
         console.error("❌ There was an error connecting to the database ❌");
         console.error(err);
-        // Optionally, rethrow or process.exit(1) if you want to handle this upstream
+        throw err;
     }
 };
 

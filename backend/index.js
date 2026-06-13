@@ -26,12 +26,11 @@ app.get('/', (req, res) => {
 // Database connection
 connectDB()
     .then(() => {
-        console.log("✅ Successfully connected to the database."); 
         app.listen(PORT, () => {
             console.log(`👌 Server is perfectly running on PORT: ${PORT} 👌`);
         });
     })
     .catch((err) => {
-        console.error(`❌ Error connecting to MongoDB: ${err} ❌`);
-        process.exit(1); 
+        console.error(`❌ Error connecting to MongoDB: ${err.message} ❌`);
+        process.exit(1);
     });
