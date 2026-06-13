@@ -1,19 +1,37 @@
 const express = require("express");
-const app = express();
 const cors = require("cors");
+const morgan = require("morgan"); 
 
-const {PORT} = require("./example.env");
+const { PORT } = require("./example.env");
+const { connectDB } = require("./src/database/db");
 
+const app = express();
+
+// Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(morgan("dev")); 
 
+// Custom middleware example: log request method and URL
+app.use((req, res, next) => {
+    console.log(`📝 ${req.method} ${req.url}`);
+    next();
+});
 
+// Routes
 app.get('/', (req, res) => {
     res.send("Hello ji..");
 });
 
-
-app.listen("PORT", () => {
-    console.log(`👌 Server is perfectly running on PORT: ${PORT} 👌`);
-});
-
+// Database connection
+connectDB()
+    .then(() => {
+        console.log("✅ Successfully connected to the database."); 
+        app.listen(PORT, () => {
+            console.log(`👌 Server is perfectly running on PORT: ${PORT} 👌`);
+        });
+    })
+    .catch((err) => {
+        console.error(`❌ Error connecting to MongoDB: ${err} ❌`);
+        process.exit(1); 
+    });
