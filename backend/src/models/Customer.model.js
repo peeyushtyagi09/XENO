@@ -1,20 +1,22 @@
 const mongoose = require("mongoose");
 
+// Customer schema — XENO platform ka core entity
+// Har customer ka profile, spend history aur last order track hota hai
 const CustomerSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: [true, "Customer name is required"],
-      trim: true,
+      trim: true, // extra spaces hata do
       minlength: [2, "Name must be at least 2 characters"],
       maxlength: [100, "Name cannot exceed 100 characters"],
     },
     email: {
       type: String,
       required: [true, "Email address is required"],
-      unique: true,
+      unique: true, // duplicate email allow nahi — campaigns ke liye zaroori
       trim: true,
-      lowercase: true,
+      lowercase: true, // email hamesha lowercase me store
       match: [
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
         "Please provide a valid email address",
@@ -39,23 +41,26 @@ const CustomerSchema = new mongoose.Schema(
     totalSpent: {
       type: Number,
       min: [0, "Total spent cannot be negative"],
-      default: 0,
+      default: 0, // naya customer — abhi kuch spend nahi kiya
     },
     lastOrderDate: {
       type: Date,
-      default: null,
+      default: null, // jab tak order nahi, null rahega
     },
   },
   {
-    timestamps: true, 
+    timestamps: true, // createdAt, updatedAt auto manage
     collection: "customers",
-    versionKey: false,
+    versionKey: false, // __v field nahi chahiye response me
   }
 );
- 
-CustomerSchema.index({ email: 1 });
+
+// Indexes — fast lookup ke liye (email unique se already indexed hai)
 CustomerSchema.index({ phone: 1 });
- 
+CustomerSchema.index({ city: 1 }); // city filter queries fast karega
+CustomerSchema.index({ createdAt: -1 }); // latest customers pehle
+
+// Response se __v hata do (extra safety)
 CustomerSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.__v;
