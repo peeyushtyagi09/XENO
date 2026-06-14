@@ -10,6 +10,9 @@ const campaignRoutes = require("./src/routes/Campaign.route");
 const receiptRoutes = require("./src/routes/Receipt.route");
 const aiRoutes = require("./src/routes/ai.routes");
 const aiCampaignRoutes = require("./src/routes/aiCampaign.routes");
+const aiInsightsRoutes = require("./src/routes/aiInsights.routes");
+const aiSegmentRoutes = require("./src/routes/aiSegment.routes");
+const aiCopilotRoutes = require("./src/routes/aiCopilot.routes");
 const errorHandler = require("./src/middleware/errorHandler.middleware");
 const ApiError = require("./src/utils/ApiError");
 
@@ -52,6 +55,9 @@ app.use("/api/receipt", receiptRoutes);
 console.log("✅ Registering /api/ai routes");
 app.use("/api/ai", aiRoutes);
 app.use("/api/ai", aiCampaignRoutes);
+app.use("/api/ai", aiInsightsRoutes);
+app.use("/api/ai", aiSegmentRoutes);
+app.use("/api/ai", aiCopilotRoutes);
 
 // 404 — jo route exist nahi karta
 app.use((req, res, next) => {

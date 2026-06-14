@@ -38,8 +38,6 @@ const SegmentSchema = new mongoose.Schema(
   }
 );
 
-// Index for fast segment lookups
-SegmentSchema.index({ segmentName: 1 });
 
 SegmentSchema.methods.toJSON = function () {
   const obj = this.toObject();

@@ -75,8 +75,6 @@ const CommunicationSchema = new mongoose.Schema(
   }
 );
  
-CommunicationSchema.index({ campaignId: 1 });
-CommunicationSchema.index({ customerId: 1 });
 CommunicationSchema.index({ channel: 1 });
 CommunicationSchema.index({ status: 1, sentAt: 1 });
  
