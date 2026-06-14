@@ -22,10 +22,10 @@ const communicationLogCreateSchema = Joi.object({
     }),
 
   status: Joi.string()
-    .valid('pending', 'sent', 'failed', 'delivered', 'opened')
+    .valid('pending', 'sent', 'failed', 'delivered', 'opened', 'clicked', 'converted')
     .default('pending')
     .messages({
-      'any.only': 'Status allowed: pending, sent, failed, delivered, opened',
+      'any.only': 'Status allowed: pending, sent, failed, delivered, opened, clicked, converted',
       'string.empty': 'Status nahi diya',
     }),
 
@@ -87,9 +87,9 @@ const communicationLogUpdateSchema = Joi.object({
     }),
 
   status: Joi.string()
-    .valid('pending', 'sent', 'failed', 'delivered', 'opened')
+    .valid('pending', 'sent', 'failed', 'delivered', 'opened', 'clicked', 'converted')
     .messages({
-      'any.only': 'Status allowed: pending, sent, failed, delivered, opened',
+      'any.only': 'Status allowed: pending, sent, failed, delivered, opened, clicked, converted',
     }),
 
   channel: Joi.string()

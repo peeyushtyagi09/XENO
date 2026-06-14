@@ -6,7 +6,7 @@ const mapReceiptStatus = (status) => {
   const map = {
     DELIVERED: "delivered",
     OPENED: "opened",
-    CLICKED: "opened",
+    CLICKED: "clicked",
     FAILED: "failed",
   };
   return map[status];
@@ -61,6 +61,7 @@ const processReceipt = async ({ campaignId, customerId, status, timestamp }) => 
 
   if (status === "CLICKED") {
     log.openedAt = log.openedAt || eventTime;
+    log.deliveredAt = log.deliveredAt || eventTime;
     log.meta = { ...(log.meta || {}), clickedAt: eventTime };
   }
 

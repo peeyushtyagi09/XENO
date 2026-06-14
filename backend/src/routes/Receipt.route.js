@@ -5,7 +5,10 @@ const validate = require("../middleware/validate.middleware");
 const { receiptSchema } = require("../validation/Receipt.validation");
 
 const router = express.Router();
-
-router.post("/", validate(receiptSchema, "body"), asyncHandler(handleReceipt));
-
+console.log("✅ Receipt.route.js loaded");
+router.post("/", (req, res, next) => {
+    console.log("🔥 RECEIPT HIT");
+    next();
+  }, validate(receiptSchema, "body"), asyncHandler(handleReceipt));
+  
 module.exports = router;

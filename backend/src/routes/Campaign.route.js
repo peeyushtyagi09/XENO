@@ -14,6 +14,7 @@ const {
   campaignIdParamSchema,
   campaignListQuerySchema,
 } = require("../validation/Campaign.validation");
+const { getCampaignStats } = require("../controllers/Analytics.controller");
 
 const router = express.Router();
 
@@ -32,6 +33,13 @@ router.get(
   "/",
   validate(campaignListQuerySchema, "query"),
   asyncHandler(getCampaigns)
+);
+
+// Analytics — /:id se pehle register karo (route conflict avoid)
+router.get(
+  "/:id/stats",
+  validate(campaignIdParamSchema, "params"),
+  asyncHandler(getCampaignStats)
 );
 
 router.get(

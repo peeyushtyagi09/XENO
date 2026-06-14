@@ -7,6 +7,8 @@ const VALID_STATUSES = [
   "failed",
   "delivered",
   "opened",
+  "clicked",
+  "converted",
 ];
 
 const CommunicationSchema = new mongoose.Schema(

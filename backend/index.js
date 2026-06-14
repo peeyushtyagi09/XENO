@@ -29,6 +29,10 @@ app.get("/", (req, res) => {
   res.send("Hello ji..");
 });
 
+app.get("/health", (req, res) => {
+  res.send("TEST WORKING");
+});
+
 // Phase 3: Customer APIs
 app.use("/customers", customerRoutes);
 
@@ -39,6 +43,7 @@ app.use("/api/segments", segmentRoutes);
 app.use("/api/campaigns", campaignRoutes);
 
 // Phase 6: Channel Service callbacks — delivery receipts
+console.log("✅ Registering /api/receipt");
 app.use("/api/receipt", receiptRoutes);
 
 // 404 — jo route exist nahi karta
