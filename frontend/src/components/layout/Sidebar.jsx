@@ -8,6 +8,8 @@ import {
   Zap,
   Menu,
   X,
+  MessageSquare,
+  FlaskConical,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -18,6 +20,8 @@ const navItems = [
   { to: '/segments', label: 'Segments', icon: Filter },
   { to: '/campaigns', label: 'Campaigns', icon: Megaphone },
   { to: '/analytics', label: 'Analytics', icon: BarChart2 },
+  { to: '/copilot', label: 'AI Copilot', icon: MessageSquare },
+  { to: '/test-lab', label: 'AI Test Lab', icon: FlaskConical },
 ];
 
 // Desktop Sidebar — professional, clean look

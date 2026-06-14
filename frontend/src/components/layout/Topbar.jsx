@@ -8,6 +8,8 @@ const routeLabels = {
   '/segments': 'Segments',
   '/campaigns': 'Campaigns',
   '/analytics': 'Analytics',
+  '/copilot': 'AI Copilot',
+  '/test-lab': 'AI Test Lab',
 };
 
 // Top navigation bar — page title aur breadcrumb dikhata hai

@@ -1,5 +1,5 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const { GEMINI_API_KEY } = require("../../example.env.js");
+const { GEMINI_API_KEY } = require("../../example.env");
 const ApiError = require("../utils/ApiError");
 
 // API key check karo
@@ -9,6 +9,7 @@ if (!GEMINI_API_KEY) {
 
 // Client ko initialize karo
 const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
+console.log("genAI", genAI);
 
 /**
  * Prompt ka response generate karne ke liye service function
@@ -16,7 +17,6 @@ const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
  * @returns {Promise<string>} - Gemini dwara return kiya gaya raw text
  */
 const generateAIResponse = async (prompt) => {
-  // Agar API key set nahi hai to error throw karo
   if (!genAI) {
     console.error("[AI SERVICE] Gemini Error: API Key missing or not initialized");
     throw new ApiError(500, "Gemini API key server par configured nahi hai. Please check .env file.");
@@ -26,7 +26,7 @@ const generateAIResponse = async (prompt) => {
     console.log("[AI SERVICE] Gemini Request Started");
     
     // Gemini model select karo — yahan hum standard flash model use kar rahe hain
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     // Gemini ko prompt bhej rahe hain
     const result = await model.generateContent(prompt);

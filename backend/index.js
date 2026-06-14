@@ -13,6 +13,7 @@ const aiCampaignRoutes = require("./src/routes/aiCampaign.routes");
 const aiInsightsRoutes = require("./src/routes/aiInsights.routes");
 const aiSegmentRoutes = require("./src/routes/aiSegment.routes");
 const aiCopilotRoutes = require("./src/routes/aiCopilot.routes");
+const copilotKitRoutes = require("./src/routes/copilotKit.routes");
 const errorHandler = require("./src/middleware/errorHandler.middleware");
 const ApiError = require("./src/utils/ApiError");
 
@@ -58,6 +59,7 @@ app.use("/api/ai", aiCampaignRoutes);
 app.use("/api/ai", aiInsightsRoutes);
 app.use("/api/ai", aiSegmentRoutes);
 app.use("/api/ai", aiCopilotRoutes);
+app.use("/api/copilotkit", copilotKitRoutes);
 
 // 404 — jo route exist nahi karta
 app.use((req, res, next) => {

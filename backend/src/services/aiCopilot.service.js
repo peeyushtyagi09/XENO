@@ -10,11 +10,16 @@ const ApiError = require("../utils/ApiError");
  * @param {string} message - marketer chat message
  * @returns {Promise<object>} - orchestration result (intent, toolUsed, confidence, result)
  */
+
+console.log("genAI inside aiCopilot =", genAI);
 const processCopilotMessage = async (message) => {
+  console.log("COPILOT FUNCTION HIT");
+  console.log("Incoming Message =", message);
+  console.log("genAI =", genAI);
   if (!genAI) {
-    console.error("[AI COPILOT] Error: Gemini client is not initialized");
-    throw new ApiError(500, "Gemini client server par configured nahi hai.");
-  }
+  console.error("[AI COPILOT] Error: Gemini client is not initialized");
+  throw new ApiError(500, "Gemini client server par configured nahi hai.");
+}
 
   try {
     console.log("[AI COPILOT] Request received");
@@ -22,7 +27,7 @@ const processCopilotMessage = async (message) => {
 
     // JSON response forced configuration set ki hai
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash",
       generationConfig: { responseMimeType: "application/json" }
     });
 
@@ -76,6 +81,12 @@ User Message: "${message}"
     }
 
     const { intent, confidence, parameters } = classification;
+    console.log("=================================");
+    console.log("Intent =", intent);
+    console.log("Confidence =", confidence);
+    console.log("Parameters =", parameters);
+    console.log("genAI =", genAI);
+    console.log("=================================");
     console.log(`[AI COPILOT] Intent detected: ${intent} (Confidence: ${confidence})`);
 
     // Intent selection aur execution routing

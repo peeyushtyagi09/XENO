@@ -93,9 +93,9 @@ const createSegmentFromQuery = async (query) => {
   try {
     console.log(`[AI SEGMENT] Request received for query: "${query}"`);
 
-    // Gemini 1.5 Flash client select karo with JSON mode forced
+    // Gemini client select karo with JSON mode forced
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash",
       generationConfig: { responseMimeType: "application/json" }
     });
 
