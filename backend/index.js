@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 
-const { PORT } = require("example.env.js");
+const { PORT } = require("./example.env.js");
 const { connectDB } = require("./src/database/db");
 const customerRoutes = require("./src/routes/Customer.route");
 const segmentRoutes = require("./src/routes/Segment.route");
