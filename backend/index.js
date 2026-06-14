@@ -9,6 +9,7 @@ const segmentRoutes = require("./src/routes/Segment.route");
 const campaignRoutes = require("./src/routes/Campaign.route");
 const receiptRoutes = require("./src/routes/Receipt.route");
 const aiRoutes = require("./src/routes/ai.routes");
+const aiCampaignRoutes = require("./src/routes/aiCampaign.routes");
 const errorHandler = require("./src/middleware/errorHandler.middleware");
 const ApiError = require("./src/utils/ApiError");
 
@@ -47,9 +48,10 @@ app.use("/api/campaigns", campaignRoutes);
 console.log("✅ Registering /api/receipt");
 app.use("/api/receipt", receiptRoutes);
 
-// Gemini Integration Foundation Route
-console.log("✅ Registering /api/ai");
+// Gemini Integration Route
+console.log("✅ Registering /api/ai routes");
 app.use("/api/ai", aiRoutes);
+app.use("/api/ai", aiCampaignRoutes);
 
 // 404 — jo route exist nahi karta
 app.use((req, res, next) => {

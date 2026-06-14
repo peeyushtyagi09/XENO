@@ -62,4 +62,5 @@ const generateAIResponse = async (prompt) => {
 
 module.exports = {
   generateAIResponse,
+  genAI,
 };
