@@ -1,16 +1,9 @@
 const mongoose = require("mongoose");
 
-
-
-const VALID_CHANNELS = ["email", "sms", "push", "whatsapp", "other"];
-const VALID_STATUSES = [
-  "draft",
-  "scheduled",
-  "sent",
-  "failed",
-  "paused",
-  "archived",
-];
+// Assignment spec ke mutabiq channel aur status enums
+// PascalCase rakha — API request/response me same format dikhega
+const VALID_CHANNELS = ["WhatsApp", "SMS", "Email", "RCS"];
+const VALID_STATUSES = ["Draft", "Scheduled", "Running", "Completed"];
 
 const CampaignSchema = new mongoose.Schema(
   {
@@ -20,14 +13,11 @@ const CampaignSchema = new mongoose.Schema(
       trim: true,
       minlength: [2, "Campaign name must be at least 2 characters"],
       maxlength: [100, "Campaign name cannot exceed 100 characters"],
-      unique: true,
-      index: true,
     },
     segmentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Segment",
       required: [true, "Segment ID is required"],
-      index: true,
     },
     channel: {
       type: String,
@@ -35,10 +25,8 @@ const CampaignSchema = new mongoose.Schema(
       trim: true,
       enum: {
         values: VALID_CHANNELS,
-        message: `Channel must be one of: ${VALID_CHANNELS.join(", ")}`
+        message: `Channel must be one of: ${VALID_CHANNELS.join(", ")}`,
       },
-      default: "email",
-      index: true,
     },
     message: {
       type: String,
@@ -50,33 +38,25 @@ const CampaignSchema = new mongoose.Schema(
       type: String,
       enum: {
         values: VALID_STATUSES,
-        message: `Status must be one of: ${VALID_STATUSES.join(", ")}`
+        message: `Status must be one of: ${VALID_STATUSES.join(", ")}`,
       },
-      default: "draft",
-      index: true,
+      default: "Draft",
     },
-    scheduledAt: {
+    // Segment criteria se match hone wale customers ki count — create time pe compute hoti hai
+    audienceCount: {
+      type: Number,
+      min: [0, "Audience count cannot be negative"],
+      default: 0,
+    },
+    // Soft delete — record DB me rehta hai, list/detail queries me hide hota hai
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    deletedAt: {
       type: Date,
       default: null,
-      validate: {
-        validator: function (value) {
-          // Allow null (unscheduled), or time in the present/future
-          return value === null || value >= new Date();
-        },
-        message: "Scheduled time must be now or a future date"
-      },
     },
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: false,
-      index: true,
-    }, 
-    meta: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {},
-      select: false,
-    }
   },
   {
     timestamps: true,
@@ -86,17 +66,18 @@ const CampaignSchema = new mongoose.Schema(
 );
 
 CampaignSchema.index({ name: 1 });
-CampaignSchema.index({ status: 1 });
+CampaignSchema.index({ status: 1, createdAt: -1 });
 CampaignSchema.index({ segmentId: 1 });
-CampaignSchema.index({ channel: 1, scheduledAt: 1 });
+CampaignSchema.index({ channel: 1 });
+CampaignSchema.index({ isDeleted: 1, createdAt: -1 });
 
 CampaignSchema.methods.toJSON = function () {
   const obj = this.toObject({ getters: true });
   delete obj.__v;
-  delete obj.meta; 
+  delete obj.isDeleted;
+  delete obj.deletedAt;
   return obj;
 };
-
 
 const Campaign = mongoose.model("Campaign", CampaignSchema);
 
