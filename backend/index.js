@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const { PORT } = require("./example.env");
 const { connectDB } = require("./src/database/db");
 const customerRoutes = require("./src/routes/Customer.route");
+const segmentRoutes = require("./src/routes/Segment.route");
 const errorHandler = require("./src/middleware/errorHandler.middleware");
 const ApiError = require("./src/utils/ApiError");
 
@@ -28,6 +29,9 @@ app.get("/", (req, res) => {
 
 // Phase 3: Customer APIs
 app.use("/customers", customerRoutes);
+
+// Phase 4: Segmentation Engine — marketer segment preview
+app.use("/api/segments", segmentRoutes);
 
 // 404 — jo route exist nahi karta
 app.use((req, res, next) => {

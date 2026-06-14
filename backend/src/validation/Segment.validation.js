@@ -84,7 +84,60 @@ const segmentUpdateSchema = Joi.object({
 }).min(1)
 .options({ abortEarly: false });
 
+/**
+ * Segment preview validation — POST /api/segments/preview
+ * Saare filters optional hain — empty body {} valid hai (saare customers return honge)
+ * Kam se kam ek filter bhejna zaroori nahi — marketer pehle broad segment dekh sakta hai
+ */
+const segmentPreviewSchema = Joi.object({
+  minSpent: Joi.number()
+    .min(0)
+    .messages({
+      'number.base': 'minSpent ek number hona chahiye',
+      'number.min': 'minSpent negative nahi ho sakta',
+    }),
+
+  maxSpent: Joi.number()
+    .min(0)
+    .messages({
+      'number.base': 'maxSpent ek number hona chahiye',
+      'number.min': 'maxSpent negative nahi ho sakta',
+    }),
+
+  inactiveDays: Joi.number()
+    .integer()
+    .min(1)
+    .messages({
+      'number.base': 'inactiveDays ek number hona chahiye',
+      'number.integer': 'inactiveDays poore din hona chahiye (integer)',
+      'number.min': 'inactiveDays kam se kam 1 hona chahiye',
+    }),
+
+  city: Joi.string()
+    .trim()
+    .max(50)
+    .messages({
+      'string.max': 'City 50 characters se zyada nahi ho sakta',
+    }),
+})
+  .custom((value, helpers) => {
+    // Dono range filters hone par min <= max hona chahiye — warna empty result ya confusion
+    if (
+      value.minSpent != null &&
+      value.maxSpent != null &&
+      value.minSpent > value.maxSpent
+    ) {
+      return helpers.error('any.invalid');
+    }
+    return value;
+  })
+  .messages({
+    'any.invalid': 'minSpent maxSpent se zyada nahi ho sakta',
+  })
+  .options({ abortEarly: false });
+
 module.exports = {
   segmentCreateSchema,
   segmentUpdateSchema,
+  segmentPreviewSchema,
 };
