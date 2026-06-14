@@ -8,6 +8,7 @@ const customerRoutes = require("./src/routes/Customer.route");
 const segmentRoutes = require("./src/routes/Segment.route");
 const campaignRoutes = require("./src/routes/Campaign.route");
 const receiptRoutes = require("./src/routes/Receipt.route");
+const aiRoutes = require("./src/routes/ai.routes");
 const errorHandler = require("./src/middleware/errorHandler.middleware");
 const ApiError = require("./src/utils/ApiError");
 
@@ -45,6 +46,10 @@ app.use("/api/campaigns", campaignRoutes);
 // Phase 6: Channel Service callbacks — delivery receipts
 console.log("✅ Registering /api/receipt");
 app.use("/api/receipt", receiptRoutes);
+
+// Gemini Integration Foundation Route
+console.log("✅ Registering /api/ai");
+app.use("/api/ai", aiRoutes);
 
 // 404 — jo route exist nahi karta
 app.use((req, res, next) => {
