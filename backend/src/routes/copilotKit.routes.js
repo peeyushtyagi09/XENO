@@ -7,7 +7,7 @@ const router = express.Router();
 // Hinglish comment: CopilotKit runtime request handler setup
 router.use("/", (req, res, next) => {
   const serviceAdapter = new GoogleGenerativeAIAdapter({
-    model: "gemini-1.5-flash",
+    model: "gemini-2.5-flash",
     apiKey: GEMINI_API_KEY,
   });
   const runtime = new CopilotRuntime();
