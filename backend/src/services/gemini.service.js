@@ -26,7 +26,7 @@ const generateAIResponse = async (prompt) => {
     console.log("[AI SERVICE] Gemini Request Started");
     
     // Gemini model select karo — yahan hum standard flash model use kar rahe hain
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     // Gemini ko prompt bhej rahe hain
     const result = await model.generateContent(prompt);
