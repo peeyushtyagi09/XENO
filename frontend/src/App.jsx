@@ -13,6 +13,9 @@ import { AnalyticsPage } from './features/analytics/AnalyticsPage';
 import { AICopilot } from './pages/AICopilot';
 import { AITestLab } from './pages/AITestLab';
 
+// Get backend API URL from env
+const API_URL = import.meta.env.VITE_API_URL;
+
 // TanStack Query client — global config
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,7 +30,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <CopilotKit runtimeUrl="/api/copilotkit">
+      <CopilotKit runtimeUrl={`${API_URL}/api/copilotkit`}>
         <BrowserRouter>
           <Layout>
             <Routes>

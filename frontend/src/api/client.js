@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Axios client — backend se communicate karne ka base instance
 const api = axios.create({
-  baseURL: '/',
+  baseURL: import.meta.env.VITE_API_URL,
   headers: { 'Content-Type': 'application/json' },
   timeout: 10000,
 });
